@@ -275,3 +275,4 @@ updateScore();
 livesDisplay.innerText = "Lives: 3";
 changePandaGif("walk");
 
+//TBC
