@@ -1,15 +1,18 @@
 # PandaJump
-Panda Jump - Inspired from the Google Dino Game    
+Panda Jump - Inspired from the Google Dino Game      
 
-Game speed increases every Score: 100  
+Panda Jump is a simple game where you control a panda to jump and roll to avoid obstacles.  
 
-Obstacle spawns are random. Increases chance of spawning every Score:100     
+Try to survive as long as possible while increasing your score.  
 
-Credits:     
 
-Sprites/Images used in this game are licensed / free to use.  
+Credits:  
+Developed by: MahSonn  
+
+Sprites and Sound resources used in this game are licensed / free to use.  
 
 Panda Sprites by duckhive - https://duckhive.itch.io/petey-panda  
 
 Penguin Sprites by duckhive - https://duckhive.itch.io/penguin  
 
+Background RPG by Kenny - https://kenney.nl/assets/monochrome-rpg
