@@ -13,4 +13,3 @@ Panda Sprites by duckhive - https://duckhive.itch.io/petey-panda
 
 Penguin Sprites by duckhive - https://duckhive.itch.io/penguin  
 
-Background RPG by Kenny -https://kenney.nl/assets/monochrome-rpg  
