@@ -1,0 +1,175 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #d4edda;
+    font-family: Arial, sans-serif;
+}
+
+/* Game Container */
+.game-container {
+    position: relative;
+    width: 1080px; /* Increased width */
+    height: 480px; /* Increased height */
+    border: 2px solid #333;
+    overflow: hidden;
+    background: url('images/kenny1.png') repeat-x center/cover;
+    animation: moveBackground 10s linear infinite;
+}
+
+/* Dark Overlay */
+.game-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2); 
+    z-index: 1;
+    pointer-events: none; 
+}
+
+/* Ensure important elements are above the overlay */
+#panda, #obstacle, #score, #lives, #restart-btn, #start-btn {
+    position: relative;
+    z-index: 2;
+}
+
+/* Background Scroll Animation */
+@keyframes moveBackground {
+    from { background-position: 0 0; }
+    to { background-position: -1080px 0; } 
+}
+
+/* Panda (Player Character) */
+#panda {
+    position: absolute;
+    bottom: 0px;
+    left: 60px;
+    width: 150px;
+    height: 150px;
+    background: url('Gifs/Idle.gif') no-repeat center/contain;
+}
+
+/* Panda Animations */
+.walk {
+    background: url('Gifs/Walk.gif') no-repeat center/contain;
+}
+
+.jump {
+    animation: jump 0.6s ease-out;
+    background: url('Gifs/JumpFallLand.gif') no-repeat center/contain;
+}
+
+@keyframes jump {
+    0% { bottom: 0; }
+    50% { bottom: 120px; } 
+    100% { bottom: 0; }
+}
+
+.roll {
+    background: url('Gifs/Roll.gif') no-repeat center/contain;
+}
+
+.hit {
+    background: url('Gifs/Hit.gif') no-repeat center/contain;
+}
+
+.dead {
+    background: url('Gifs/Death.gif') no-repeat center/contain;
+}
+
+.hit-death {
+    background: url('Gifs/HitDeath.gif') no-repeat center/contain;
+}
+
+/* Blinking Animation */
+@keyframes blink {
+    0%, 90% { background: url('Gifs/Idle.gif') no-repeat center/contain; }
+    91%, 100% { background: url('Gifs/Blink.gif') no-repeat center/contain; }
+}
+.blink {
+    animation: blink 4s infinite;
+}
+
+/* Obstacles (Penguins) */
+.obstacle {
+    position: absolute;
+    bottom: 5px;
+    right: -60px;
+    width: 120px;
+    height: 120px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+/* Spinning Penguin */
+.penguin-spin {
+    background: url('Gifs/SpinAttack.gif') no-repeat center/contain;
+}
+
+/* Rolling Penguin */
+.penguin-roll {
+    background: url('Gifs/PenRoll.gif') no-repeat center/contain;
+}
+
+/* Score Display */
+#score {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 26px;
+    font-weight: bold;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Lives Display */
+#lives {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 26px;
+    font-weight: bold;
+    color: white;
+    background: rgba(255, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Buttons */
+button {
+    position: absolute;
+    padding: 14px 28px;
+    font-size: 20px;
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* Start Button */
+#start-btn {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Restart Button */
+#restart-btn {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
