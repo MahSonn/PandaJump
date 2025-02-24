@@ -132,13 +132,13 @@ function checkCollision(obstacle) {
     let obstacleRect = obstacle.getBoundingClientRect();
 
     let pandaHitbox = {
-        left: pandaRect.left + 35,  // Adjusted for bigger size
+        left: pandaRect.left + 35,  
         right: pandaRect.right - 35, 
         bottom: pandaRect.bottom - 25 
     };
 
     let obstacleHitbox = {
-        left: obstacleRect.left + 80,  // Adjusted for bigger penguin
+        left: obstacleRect.left + 80, 
         right: obstacleRect.right - 80,
         bottom: obstacleRect.bottom - 60
     };

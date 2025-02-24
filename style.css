@@ -185,6 +185,16 @@ button:hover {
     left: 50%;
     transform: translate(-50%, -50%);
     display: none;
+    position: absolute;
+    padding: 14px 28px;
+    font-size: 20px;
+    font-weight: bold;
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: transform 0.2s, background 0.2s;
 }
 
 #main-menu {
@@ -247,3 +257,5 @@ button:hover {
     0% { opacity: 0; transform: scale(0.8); }
     100% { opacity: 1; transform: scale(1); }
 }
+
+/* TBA */
