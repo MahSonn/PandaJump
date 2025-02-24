@@ -9,15 +9,15 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #d4edda;
+    background-color: plum;
     font-family: Arial, sans-serif;
 }
 
 /* Game Container */
 .game-container {
     position: relative;
-    width: 1080px; /* Increased width */
-    height: 480px; /* Increased height */
+    width: 1080px;
+    height: 480px;
     border: 2px solid #333;
     overflow: hidden;
     background: url('images/kenny1.png') repeat-x center/cover;
@@ -32,9 +32,9 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.2); 
+    background: rgba(0, 0, 0, 0.2);
     z-index: 1;
-    pointer-events: none; 
+    pointer-events: none;
 }
 
 /* Ensure important elements are above the overlay */
@@ -46,17 +46,20 @@ body {
 /* Background Scroll Animation */
 @keyframes moveBackground {
     from { background-position: 0 0; }
-    to { background-position: -1080px 0; } 
+    to { background-position: -1080px 0; }
 }
 
 /* Panda (Player Character) */
 #panda {
     position: absolute;
     bottom: 0px;
-    left: 60px;
-    width: 150px;
-    height: 150px;
+    left: 30px;
+    width: 180px; /* Increased size */
+    height: 180px; /* Increased size */
+    image-rendering: pixelated;
     background: url('Gifs/Idle.gif') no-repeat center/contain;
+
+    /*outline: 2px solid red;*/ /* hitbox guide */
 }
 
 /* Panda Animations */
@@ -70,9 +73,9 @@ body {
 }
 
 @keyframes jump {
-    0% { bottom: 0; }
-    50% { bottom: 120px; } 
-    100% { bottom: 0; }
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-120px) rotate(10deg); }
+    100% { transform: translateY(0); }
 }
 
 .roll {
@@ -103,12 +106,15 @@ body {
 /* Obstacles (Penguins) */
 .obstacle {
     position: absolute;
-    bottom: 5px;
+    bottom: -25px;
     right: -60px;
-    width: 120px;
-    height: 120px;
+    width: 150px; 
+    height: 150px; 
     background-size: contain;
     background-repeat: no-repeat;
+    z-index: 1;
+
+   /* outline: 2px solid blue;*/ /* hitbox guide */
 }
 
 /* Spinning Penguin */
@@ -148,15 +154,22 @@ body {
 }
 
 /* Buttons */
-button {
+/*button {
     position: absolute;
     padding: 14px 28px;
     font-size: 20px;
+    font-weight: bold;
     background: #ff4d4d;
     color: white;
     border: none;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 8px;
+    transition: transform 0.2s, background 0.2s;
+}*/
+
+button:hover {
+    background: #ff6666;
+    transform: scale(1.1);
 }
 
 /* Start Button */
@@ -174,4 +187,63 @@ button {
     display: none;
 }
 
-/* TBC */
+#main-menu {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    animation: fadeInZoom 0.8s ease-in-out;
+}
+
+.menu-left {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-left img {
+    width: 300px;
+    height: auto;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.menu-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.menu-right h1 {
+    font-size: 48px;
+    color: white;
+}
+
+.menu-right button {
+    padding: 14px 28px;
+    font-size: 22px;
+    font-weight: bold;
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.menu-right button:hover {
+    background: #ff6666;
+    transform: scale(1.1);
+}
+
+/* Fade-in + Zoom-in Animation */
+@keyframes fadeInZoom {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+}
