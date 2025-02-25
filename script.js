@@ -49,11 +49,18 @@ function roll() {
     jumpSound.play();
     changePandaGif("roll");
 
+    // Reduce hitbox size while rolling (optional)
+    panda.style.height = "100px"; // Adjust the height for rolling animation
+
     setTimeout(() => {
         isRolling = false;
         changePandaGif("walk");
+
+        // Restore hitbox size after rolling
+        panda.style.height = "180px"; // Reset to normal height
     }, 500);
 }
+
 
 // Jump
 function jump() {
@@ -64,7 +71,7 @@ function jump() {
     jumpSound.play();
 
     panda.style.transition = "transform 0.3s ease-out";
-    panda.style.transform = "translateY(-120px)"; // Move up
+    panda.style.transform = "translateY(-100px)"; // Move up
 
     setTimeout(() => {
         panda.style.transition = "transform 0.3s ease-in";
@@ -82,10 +89,17 @@ function createObstacle() {
     if (isGameOver) return;
 
     const obstacle = document.createElement("div");
+    
+    // Default ground obstacle class
     obstacle.classList.add("obstacle");
 
-    if (Math.random() > 0.5) {
+    let randomValue = Math.random();
+
+    if (randomValue > 0.66) {
         obstacle.classList.add("penguin-spin");
+    } else if (randomValue > 0.33) { 
+        obstacle.classList.add("penguin-flap");
+        obstacle.classList.add("obstacle_fly"); // Make this a flying obstacle
     } else {
         obstacle.classList.add("penguin-roll");
     }
@@ -95,6 +109,12 @@ function createObstacle() {
 
     moveObstacle(obstacle);
 }
+
+
+
+
+
+
 
 // Move Obstacle
 function moveObstacle(obstacle) {
@@ -134,19 +154,23 @@ function checkCollision(obstacle) {
     let pandaHitbox = {
         left: pandaRect.left + 35,  
         right: pandaRect.right - 35, 
+        top: pandaRect.top + 20,  // Include top to check for flying obstacles
         bottom: pandaRect.bottom - 25 
     };
 
     let obstacleHitbox = {
         left: obstacleRect.left + 80, 
         right: obstacleRect.right - 80,
-        bottom: obstacleRect.bottom - 60
+        top: obstacleRect.top + 100,  // Add top boundary for flying obstacles
+        bottom: obstacleRect.bottom - 80
     };
 
+    // Detect collision with both ground and flying obstacles
     if (
         pandaHitbox.right > obstacleHitbox.left &&
         pandaHitbox.left < obstacleHitbox.right &&
-        pandaHitbox.bottom > obstacleHitbox.bottom
+        pandaHitbox.bottom > obstacleHitbox.top &&  // Check collision with both ground & flying obstacles
+        pandaHitbox.top < obstacleHitbox.bottom
     ) {
         if (!invincible) {
             loseLife();
@@ -156,6 +180,7 @@ function checkCollision(obstacle) {
 
     return false;
 }
+
 
 // Lose Life
 function loseLife() {
@@ -228,7 +253,7 @@ function startGame() {
 function spawnObstacles() {
     if (isGameOver) return;
 
-    let spawnTime = Math.random() * 2500 + 3000;
+    let spawnTime = Math.random() * 2500 + 3000 + 3000;
 
     setTimeout(() => {
         if (document.querySelectorAll(".obstacle").length < 2) {
