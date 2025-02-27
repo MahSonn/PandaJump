@@ -22,6 +22,10 @@ body {
     overflow: hidden;
     background: url('images/kenny1.png') repeat-x center/cover;
     animation: moveBackground 10s linear infinite;
+    border-radius: 18px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.15);
 }
 
 /* Dark Overlay */
@@ -52,14 +56,15 @@ body {
 /* Panda (Player Character) */
 #panda {
     position: absolute;
-    bottom: 0px;
+    bottom: 20px;
     left: 30px;
-    width: 180px; /* Increased size */
-    height: 180px; /* Increased size */
+    width: 160px; /* Increased size */
+    height: 160px; /* Increased size */
     image-rendering: pixelated;
     background: url('Gifs/Idle.gif') no-repeat center/contain;
+    background-size: 150% auto; /* Maintain width, increase height */
 
-    /*outline: 2px solid red;*/ /* hitbox guide */
+    /*outline: 2px solid red; /* hitbox guide */
 }
 
 /* Panda Animations */
@@ -106,7 +111,7 @@ body {
 /* Obstacles (Penguins) */
 .obstacle {
     position: absolute;
-    bottom: -25px;
+    bottom: -10px;
     right: -60px;
     width: 150px; 
     height: 150px; 
@@ -117,6 +122,20 @@ body {
    /* outline: 2px solid blue;*/ /* hitbox guide */
 }
 
+.obstacle_fly {
+    position: absolute;
+    bottom: 30px;
+    right: -60px;
+    width: 150px; 
+    height: 150px; 
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 1;
+
+    /*outline: 2px solid blue; /* hitbox guide */
+}
+
+
 /* Spinning Penguin */
 .penguin-spin {
     background: url('Gifs/SpinAttack.gif') no-repeat center/contain;
@@ -125,6 +144,11 @@ body {
 /* Rolling Penguin */
 .penguin-roll {
     background: url('Gifs/PenRoll.gif') no-repeat center/contain;
+}
+
+.penguin-flap{
+    background: url('Gifs/Flap.gif') no-repeat center/contain;
+    
 }
 
 /* Score Display */
@@ -196,60 +220,71 @@ button:hover {
     border-radius: 8px;
     transition: transform 0.2s, background 0.2s;
 }
-
+/* Main Menu Overlay */
 #main-menu {
     position: fixed;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(15, 15, 15, 0.85);
+    backdrop-filter: blur(12px);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 999;
     animation: fadeInZoom 0.8s ease-in-out;
+    padding: 20px;
 }
 
-.menu-left {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.menu-left img {
-    width: 300px;
-    height: auto;
-    animation: fadeIn 1.5s ease-in-out;
-}
-
-.menu-right {
-    flex: 1;
+/* Centered Layout */
+.menu-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
     gap: 20px;
 }
 
-.menu-right h1 {
-    font-size: 48px;
-    color: white;
+/* Panda Logo at the Top */
+.menu-container img {
+    width: 260px;
+    height: auto;
+    animation: fadeIn 1.5s ease-in-out;
+    filter: drop-shadow(0px 0px 10px rgba(255, 255, 255, 0.5));
+    image-rendering: pixelated;
+    margin-bottom: -50px; /* Reduce if needed */
 }
 
-.menu-right button {
-    padding: 14px 28px;
+/* Game Title */
+.menu-container h1 {
+    font-size: 50px;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+    margin-bottom: 10px;
+}
+
+/* Menu Buttons */
+.menu-container button {
+    width: 220px;
+    padding: 14px;
     font-size: 22px;
     font-weight: bold;
-    background: #ff4d4d;
     color: white;
+    background: linear-gradient(135deg, #d32fe2d0, #7a107a);
     border: none;
+    border-radius: 12px;
     cursor: pointer;
-    border-radius: 10px;
-    transition: transform 0.2s, background 0.2s;
+    box-shadow: 0 0 12px rgba(212, 177, 221, 0.7);
+    transition: all 0.3s ease;
+    margin: 5px;
 }
 
-.menu-right button:hover {
-    background: #ff6666;
-    transform: scale(1.1);
+.menu-container button:hover {
+    transform: scale(1.12);
+    background: linear-gradient(135deg, #94229ed0, #7a107a);
+    box-shadow: 0 0 18px rgba(212, 177, 221, 0.7);
 }
 
 /* Fade-in + Zoom-in Animation */
@@ -258,4 +293,19 @@ button:hover {
     100% { opacity: 1; transform: scale(1); }
 }
 
-/* TBA */
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .menu-container img {
+        width: 200px;
+    }
+
+    .menu-container h1 {
+        font-size: 40px;
+    }
+
+    .menu-container button {
+        width: 200px;
+        font-size: 18px;
+    }
+}
+

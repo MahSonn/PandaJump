@@ -49,11 +49,18 @@ function roll() {
     jumpSound.play();
     changePandaGif("roll");
 
+    // Reduce hitbox size while rolling
+    panda.style.height = "100px"; // Adjust the height for rolling animation
+
     setTimeout(() => {
         isRolling = false;
         changePandaGif("walk");
+
+        // Restore hitbox size after rolling
+        panda.style.height = "180px"; // Reset to normal height
     }, 500);
 }
+
 
 // Jump
 function jump() {
@@ -64,7 +71,7 @@ function jump() {
     jumpSound.play();
 
     panda.style.transition = "transform 0.3s ease-out";
-    panda.style.transform = "translateY(-120px)"; // Move up
+    panda.style.transform = "translateY(-100px)"; // Move up
 
     setTimeout(() => {
         panda.style.transition = "transform 0.3s ease-in";
@@ -78,25 +85,33 @@ function jump() {
 
 
 // Create Obstacle
-function createObstacle() {
+function createObstacle(type) {
     if (isGameOver) return;
 
     const obstacle = document.createElement("div");
-    obstacle.classList.add("obstacle");
+    obstacle.classList.add("obstacle"); // Base class
 
-    if (Math.random() > 0.5) {
-        obstacle.classList.add("penguin-spin");
+    if (type === "fly") {
+        obstacle.classList.add("penguin-flap", "obstacle_fly"); // Flying obstacle
     } else {
-        obstacle.classList.add("penguin-roll");
+        let randomGroundType = Math.random();
+        if (randomGroundType > 0.5) {
+            obstacle.classList.add("penguin-spin");
+        } else {
+            obstacle.classList.add("penguin-roll");
+        }
     }
 
-    obstacle.style.right = "-80px";
+    obstacle.style.right = "-80px"; // Starts off-screen
     gameContainer.appendChild(obstacle);
 
-    moveObstacle(obstacle);
+    if (!isGameOver) {
+        moveObstacle(obstacle);
+    }
 }
 
-// Move Obstacle
+
+
 function moveObstacle(obstacle) {
     let passedPanda = false;
 
@@ -106,25 +121,43 @@ function moveObstacle(obstacle) {
             return;
         }
 
-        let obstaclePosition = parseInt(obstacle.style.right);
+        let obstaclePosition = parseInt(obstacle.style.right) || 0;
 
-        if (obstaclePosition > 1080) {
+        // Remove obstacle when it moves off-screen
+        if (obstaclePosition >= 1080) { 
             obstacle.remove();
+            clearInterval(obstacleInterval);
+
+            // Only increase score if NO collision happened
             if (passedPanda) {
                 jumpScore++;
                 updateScore();
                 increaseGameSpeed();
             }
-            clearInterval(obstacleInterval);
         } else {
             obstacle.style.right = `${obstaclePosition + speed}px`;
         }
 
-        if (!checkCollision(obstacle)) {
-            passedPanda = true;
+        // Ensure "passedPanda" is only set when the obstacle is completely past the panda
+        if (obstaclePosition > 150 && !passedPanda) { // Adjust "150" based on panda's position
+            if (!checkCollision(obstacle)) { 
+                passedPanda = true; // Only allow scoring if there was NO collision
+            }
         }
+
+        // Handle collisions (Reduce lives instead of scoring)
+        if (checkCollision(obstacle)) {
+            if (!invincible) {
+                loseLife();
+            }
+            clearInterval(obstacleInterval);
+            obstacle.remove(); // Remove the obstacle on collision
+            passedPanda = false; // Prevent scoring if the panda hit it
+        }
+
     }, 30);
 }
+
 
 // Collision Detection
 function checkCollision(obstacle) {
@@ -134,19 +167,23 @@ function checkCollision(obstacle) {
     let pandaHitbox = {
         left: pandaRect.left + 35,  
         right: pandaRect.right - 35, 
-        bottom: pandaRect.bottom - 25 
+        top: pandaRect.top + 20,  // Include top to check for flying obstacles
+        bottom: pandaRect.bottom - 5 
     };
 
     let obstacleHitbox = {
         left: obstacleRect.left + 80, 
         right: obstacleRect.right - 80,
-        bottom: obstacleRect.bottom - 60
+        top: obstacleRect.top + 80,  // Add top boundary for flying obstacles
+        bottom: obstacleRect.bottom - 80
     };
 
+    // Detect collision with both ground and flying obstacles
     if (
         pandaHitbox.right > obstacleHitbox.left &&
         pandaHitbox.left < obstacleHitbox.right &&
-        pandaHitbox.bottom > obstacleHitbox.bottom
+        pandaHitbox.bottom > obstacleHitbox.top &&  // Check collision with both ground & flying obstacles
+        pandaHitbox.top < obstacleHitbox.bottom
     ) {
         if (!invincible) {
             loseLife();
@@ -156,6 +193,7 @@ function checkCollision(obstacle) {
 
     return false;
 }
+
 
 // Lose Life
 function loseLife() {
@@ -223,21 +261,59 @@ function startGame() {
 
     spawnObstacles();
 }
+// spawn obs
+let lastObstacleType = null;
+let lastSpawnTime = 0;
 
-// Spawn Obstacles
 function spawnObstacles() {
     if (isGameOver) return;
 
-    let spawnTime = Math.random() * 2500 + 3000;
+    let spawnTime = Math.random() * 1500 + 2000; 
+    let currentTime = Date.now();
+    let timeSinceLastSpawn = currentTime - lastSpawnTime;
+
+    // Prevent immediate ground spawn after flying obstacle
+    if (lastObstacleType === "fly" && timeSinceLastSpawn < 1500) {
+        spawnTime += 1500 - timeSinceLastSpawn;
+    }
 
     setTimeout(() => {
-        if (document.querySelectorAll(".obstacle").length < 2) {
-            createObstacle();
+        if (isGameOver) return;
+
+        let groundObstacles = document.querySelectorAll(".obstacle:not(.obstacle_fly)");
+        let flyingObstacles = document.querySelectorAll(".obstacle_fly");
+
+        // Get last obstacle's position (if any)
+        let lastObstacle = document.querySelector(".obstacle:last-child") || document.querySelector(".obstacle_fly:last-child");
+        let lastObstacleRight = lastObstacle ? parseInt(lastObstacle.style.right) || 0 : 9999; // Default to far away if none
+
+        // Enforce a minimum distance (e.g., 100px apart)
+        let minGap = 150;
+        if (lastObstacleRight < minGap) {
+            // If too close, wait and retry
+            setTimeout(spawnObstacles, 500);
+            return;
         }
 
+        // Allow only 1 flying obstacle at a time
+        let canSpawnFlying = flyingObstacles.length < 1 && lastObstacleType !== "fly";
+        let canSpawnGround = groundObstacles.length < 1 && lastObstacleType !== "ground";
+
+        // Decide what to spawn based on the last obstacle type
+        if (canSpawnFlying) {
+            createObstacle("fly");
+            lastObstacleType = "fly";
+        } else if (canSpawnGround) {
+            createObstacle("ground");
+            lastObstacleType = "ground";
+        }
+
+        lastSpawnTime = Date.now();
         spawnObstacles();
     }, spawnTime);
 }
+
+
 
 // Increase Game Speed Based on Jump Score
 function increaseGameSpeed() {
