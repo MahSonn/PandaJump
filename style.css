@@ -119,7 +119,7 @@ body {
     background-repeat: no-repeat;
     z-index: 1;
 
-    outline: 2px solid blue; /* hitbox guide */
+   /* outline: 2px solid blue;*/ /* hitbox guide */
 }
 
 .obstacle_fly {
