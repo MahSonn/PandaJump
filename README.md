@@ -1,4 +1,8 @@
 # PandaJump
+Authors:  
+  MahSonn  
+  Direccc  
+
 Panda Jump - Inspired from the Google Dino Game      
 
 Panda Jump is a simple game where you control a panda to jump and roll to avoid obstacles.  

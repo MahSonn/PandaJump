@@ -111,7 +111,11 @@ body {
 /* Obstacles (Penguins) */
 .obstacle {
     position: absolute;
+<<<<<<< HEAD
     bottom: -10px;
+=======
+    bottom: -29px;
+>>>>>>> 394dc3c6ed20f5681616a7b7612615358dd9ad3b
     right: -60px;
     width: 150px; 
     height: 150px; 
@@ -119,12 +123,16 @@ body {
     background-repeat: no-repeat;
     z-index: 1;
 
-   /* outline: 2px solid blue;*/ /* hitbox guide */
+    outline: 2px solid blue; /* hitbox guide */
 }
 
 .obstacle_fly {
     position: absolute;
+<<<<<<< HEAD
     bottom: 30px;
+=======
+    bottom: 50px;
+>>>>>>> 394dc3c6ed20f5681616a7b7612615358dd9ad3b
     right: -60px;
     width: 150px; 
     height: 150px; 
@@ -136,6 +144,10 @@ body {
 }
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 394dc3c6ed20f5681616a7b7612615358dd9ad3b
 /* Spinning Penguin */
 .penguin-spin {
     background: url('Gifs/SpinAttack.gif') no-repeat center/contain;
