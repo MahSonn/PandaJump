@@ -49,11 +49,7 @@ function roll() {
     jumpSound.play();
     changePandaGif("roll");
 
-<<<<<<< HEAD
     // Reduce hitbox size while rolling
-=======
-    // Reduce hitbox size while rolling (optional)
->>>>>>> 394dc3c6ed20f5681616a7b7612615358dd9ad3b
     panda.style.height = "100px"; // Adjust the height for rolling animation
 
     setTimeout(() => {
@@ -93,24 +89,10 @@ function createObstacle(type) {
     if (isGameOver) return;
 
     const obstacle = document.createElement("div");
-<<<<<<< HEAD
     obstacle.classList.add("obstacle"); // Base class
 
     if (type === "fly") {
         obstacle.classList.add("penguin-flap", "obstacle_fly"); // Flying obstacle
-=======
-    
-    // Default ground obstacle class
-    obstacle.classList.add("obstacle");
-
-    let randomValue = Math.random();
-
-    if (randomValue > 0.66) {
-        obstacle.classList.add("penguin-spin");
-    } else if (randomValue > 0.33) { 
-        obstacle.classList.add("penguin-flap");
-        obstacle.classList.add("obstacle_fly"); // Make this a flying obstacle
->>>>>>> 394dc3c6ed20f5681616a7b7612615358dd9ad3b
     } else {
         let randomGroundType = Math.random();
         if (randomGroundType > 0.5) {
@@ -130,14 +112,6 @@ function createObstacle(type) {
 
 
 
-<<<<<<< HEAD
-=======
-
-
-
-
-// Move Obstacle
->>>>>>> 394dc3c6ed20f5681616a7b7612615358dd9ad3b
 function moveObstacle(obstacle) {
     let passedPanda = false;
 
@@ -194,21 +168,13 @@ function checkCollision(obstacle) {
         left: pandaRect.left + 35,  
         right: pandaRect.right - 35, 
         top: pandaRect.top + 20,  // Include top to check for flying obstacles
-<<<<<<< HEAD
         bottom: pandaRect.bottom - 5 
-=======
-        bottom: pandaRect.bottom - 25 
->>>>>>> 394dc3c6ed20f5681616a7b7612615358dd9ad3b
     };
 
     let obstacleHitbox = {
         left: obstacleRect.left + 80, 
         right: obstacleRect.right - 80,
-<<<<<<< HEAD
         top: obstacleRect.top + 80,  // Add top boundary for flying obstacles
-=======
-        top: obstacleRect.top + 100,  // Add top boundary for flying obstacles
->>>>>>> 394dc3c6ed20f5681616a7b7612615358dd9ad3b
         bottom: obstacleRect.bottom - 80
     };
 
@@ -295,14 +261,13 @@ function startGame() {
 
     spawnObstacles();
 }
-// spawn obstacles depending on type
+// spawn obstacles
 let lastObstacleType = null;
 let lastSpawnTime = 0;
 
 function spawnObstacles() {
     if (isGameOver) return;
 
-<<<<<<< HEAD
     let spawnTime = Math.random() * 1500 + 2000; 
     let currentTime = Date.now();
     let timeSinceLastSpawn = currentTime - lastSpawnTime;
@@ -311,9 +276,6 @@ function spawnObstacles() {
     if (lastObstacleType === "fly" && timeSinceLastSpawn < 1500) {
         spawnTime += 1500 - timeSinceLastSpawn;
     }
-=======
-    let spawnTime = Math.random() * 2500 + 3000 + 3000;
->>>>>>> 394dc3c6ed20f5681616a7b7612615358dd9ad3b
 
     setTimeout(() => {
         if (isGameOver) return;
