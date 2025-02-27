@@ -295,7 +295,7 @@ function startGame() {
 
     spawnObstacles();
 }
-// spawn obstacles
+// spawn obstacles depending on type
 let lastObstacleType = null;
 let lastSpawnTime = 0;
 
